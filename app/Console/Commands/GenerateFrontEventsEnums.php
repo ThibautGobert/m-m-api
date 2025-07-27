@@ -6,7 +6,7 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
 use ReflectionClass;
 
-class GenerateFrontEventsEnum extends Command
+class GenerateFrontEventsEnums extends Command
 {
     /**
      * The name and signature of the console command.

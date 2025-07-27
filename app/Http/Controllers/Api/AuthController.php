@@ -11,6 +11,7 @@ use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
@@ -18,6 +19,7 @@ class AuthController extends Controller
     public function register(RegisterRequest $request)
     {
         $user = User::create([
+            'uuid' => $this->getUniqueUuid(),
             'name' => $request->input('name'),
             'email' => $request->input('email'),
             'password' => bcrypt($request->input('password')),
@@ -31,6 +33,14 @@ class AuthController extends Controller
             'token' => $token,
             'user' => $user,
         ]);
+    }
+
+    private function getUniqueUuid(): string
+    {
+        do {
+            $uuid = Str::uuid();
+        } while(User::where('uuid', $uuid)->exists());
+        return $uuid;
     }
 
     public function login(LoginRequest $request)
@@ -61,7 +71,7 @@ class AuthController extends Controller
     {
         $request->fulfill();
 
-        EmailVerified::dispatch($request->user()->id);
+        EmailVerified::dispatch($request->user());
        // event(new EmailVerified(auth()->user()->id));
 
         $token = auth()->user()->createToken('auth')->plainTextToken;
@@ -74,5 +84,10 @@ class AuthController extends Controller
     public function resendVerificationEmail(Request $request)
     {
         $request->user()->sendEmailVerificationNotification();
+    }
+
+    public function user()
+    {
+        return response()->json(auth()->user());
     }
 }

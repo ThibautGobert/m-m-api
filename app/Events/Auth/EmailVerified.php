@@ -2,6 +2,7 @@
 
 namespace App\Events\Auth;
 
+use App\Models\User;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
@@ -16,7 +17,7 @@ class EmailVerified implements ShouldBroadcast
     /**
      * Create a new event instance.
      */
-    public function __construct(public int $userId)
+    public function __construct(public User $user)
     {
 
     }
@@ -29,7 +30,7 @@ class EmailVerified implements ShouldBroadcast
     public function broadcastOn(): array
     {
         return [
-            new PrivateChannel('user.' . $this->userId),
+            new PrivateChannel('user.' . $this->user->uuid),
         ];
     }
 }

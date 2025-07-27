@@ -16,10 +16,13 @@ class Conversation extends Model
         ConversationRelationShips;
 
     protected $fillable = [
+        'uuid',
         'type',
         'last_message_id',
         'last_message_at',
     ];
+
+    protected $hidden = ['id'];
 
     protected $casts = [
         'type' => ConversationType::class,

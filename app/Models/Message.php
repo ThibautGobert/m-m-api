@@ -14,6 +14,7 @@ class Message extends Model
 
     protected $fillable = [
         'type',
+        'uuid',
         'conversation_id',
         'sender_id',
         'has_media',
@@ -22,6 +23,8 @@ class Message extends Model
         'read_at',
         'replied_to_id',
     ];
+
+    protected $hidden = ['id'];
 
     protected $casts = [
         'type' => MessageType::class,

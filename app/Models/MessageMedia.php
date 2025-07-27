@@ -17,6 +17,7 @@ class MessageMedia extends Model
     protected $table = 'message_media';
 
     protected $fillable = [
+        'uuid',
         'type',
         'message_id',
         'media_path',

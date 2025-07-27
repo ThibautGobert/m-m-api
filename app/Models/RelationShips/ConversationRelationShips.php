@@ -31,7 +31,7 @@ trait ConversationRelationShips
      */
     public function participants(): BelongsToMany
     {
-        return $this->belongsToMany(User::class)
+        return $this->belongsToMany(User::class,'conversation_user', 'conversation_id', 'user_id')
             ->withPivot(['joined_at', 'status', 'last_read_at', 'notifications_enabled'])
             ->withTimestamps();
     }
